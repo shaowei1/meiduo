@@ -1,5 +1,6 @@
-
+from django.http import HttpResponse
 from django.shortcuts import render
+from django_redis import get_redis_connection
 from rest_framework.views import APIView
 from django.conf import settings
 from rest_framework.response import Response
@@ -10,8 +11,9 @@ from rest_framework.generics import CreateAPIView
 # Create your views here.
 from rest_framework_jwt.settings import api_settings
 
-from oauth.models import OAuthQQUser
-from oauth.serializers import OauthSerializers
+from meiduo_mall.utils.captcha.captcha import captcha
+from oauth.models import OAuthQQUser, OAuthSinaUser
+from oauth.serializers import OauthSerializers, SinaSerializers
 from oauth.sina_oauth import OAuthSina
 from users.utils import merge_cart_cookie_to_redis
 
@@ -112,10 +114,10 @@ class SinaLoginView(APIView):
 
 # 获取access_token和绑定access_token
 class SinaView(CreateAPIView):
-    serializer_class = OauthSerializers
+    serializer_class = SinaSerializers
 
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         # 1、获取code值
         code = request.query_params.get('code', None)
         # 2、判断是否真的前端传递有code值
@@ -129,7 +131,7 @@ class SinaView(CreateAPIView):
         # 5、判断access_token是否绑定
         try:
             # 6、查询access_token所对应的数据是否存在
-            sina_user = OAuthQQUser.objects.get(access_token=access_token)
+            sina_user = OAuthSinaUser.objects.get(access_token=access_token)
         except:
 
             # 7、 不存在则进入绑定页面进行保存绑定
@@ -156,6 +158,24 @@ class SinaView(CreateAPIView):
             response = merge_cart_cookie_to_redis(request, response, user)
 
             return response
+
+
+def ImageVerify(request, image_code_id):
+    """
+    获取图片验证码
+    :return:
+    """
+
+    name, text, image = captcha.generate_captcha()
+    try:
+        # 保存当前生成的图片验证码内容
+        conn = get_redis_connection('img_code')
+
+        conn.setex('ImageCode_' + image_code_id, 300, text)
+    except Exception as e:
+        return HttpResponse({'message': 'DBERROR'}, content_type='application/json', status=400)
+
+    return HttpResponse(image, content_type="image/png")
 
 
 

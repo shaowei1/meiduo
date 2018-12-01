@@ -42,15 +42,15 @@ class OAuthSina(object):
 
         return json.loads(response.text)
 
-    def get_user_info(self, access_token_data):
-        url = "https://api.weibo.com/2/users/show.json"
-
-        querystring = {
-            "uid": access_token_data['uid'],
-            "access_token": access_token_data['access_token']
-        }
-
-        response = requests.request("GET", url, params=querystring)
-
-        return json.loads(response.text)
+    # def get_user_info(self, access_token_data):
+    #     url = "https://api.weibo.com/2/users/show.json"
+    #
+    #     querystring = {
+    #         "uid": access_token_data['uid'],
+    #         "access_token": access_token_data['access_token']
+    #     }
+    #
+    #     response = requests.request("GET", url, params=querystring)
+    #
+    #     return json.loads(response.text)
 
