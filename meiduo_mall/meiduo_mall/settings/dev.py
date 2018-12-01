@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'orders.apps.OrdersConfig',
     'payments.apps.PaymentsConfig',
     'weibo.apps.WeiboConfig',
+    'findPass.apps.FindpassConfig',
 ]
 
 MIDDLEWARE = [
@@ -108,7 +109,7 @@ DATABASES = {
         'NAME': 'meiduo_mall',
         'USER': 'root',
         'PASSWORD': 'python',
-        'PORT': 8306,
+        'PORT': 3306,
         'HOST': host,
     }
 }
@@ -182,6 +183,13 @@ CACHES = {
     "cart": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://" + host + ":6379/4",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+    "img_code": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://" + host + ":6379/5",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
