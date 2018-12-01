@@ -157,38 +157,7 @@ class SinaView(CreateAPIView):
 
             return response
 
-# import time
-# from .sina_oauth import OAuthSina
-# from django.conf import settings  # 引入常量
-# from django.http import HttpResponseRedirect
-# def weibo_login(request):# 跳转授权页面
-#     return HttpResponseRedirect(
-#         'https://api.weibo.com/oauth2/authorize?client_id=' + settings.SINA_APP_ID + '&redirect_uri=' + settings.SINA_REDIRECT_URI)
-#
-#
-# def weibo_get_code(request):
-#     """登录之后，会跳转到这里。需要判断code和state"""
-#     code = request.GET.get('code', None)
-#     sina = OAuthSina(settings.SINA_APP_ID,
-#                    settings.SINA_APP_KEY,
-#                    settings.SINA_REDIRECT_URI)
-#     user_info = sina.get_access_token(code)
-#     time.sleep(0.1)  # 防止还没请求到token就进行下一步
-#     # 通过uid查询出是否是新用户，新用户则注册登录
-#     is_user_exist = models.Users.objects.filter(uid=user_info['uid']).first()
-#     if is_user_exist is not None:
-#         # 存在直接登录
-#         pass
-#     else:
-#         #不存在获取用户信息
-#         new_user_info = sina.get_user_info(user_info)
-#         users_dict = {
-#             "uid": new_user_info['id'],
-#             'description': new_user_info['description'],
-#             "head": new_user_info['profile_image_url'],
-#             "nickname": new_user_info['name'],
-#         }
-#         users_table_obj = models.Users.objects.create(**users_dict).id
+
 
 
 
