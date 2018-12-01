@@ -15,7 +15,6 @@ cd meiduo
 ```
 
 
-
 ## 运行
 
 1. cd front_end_pc
@@ -27,4 +26,18 @@ live-server
 3. 访问http://127.0.0.1:8080/index.html
 
 
+
+Retrieve password
+
+Change Password
+
+show order
+
+order comment 
+
+weibo login
+
+
+
+ali外网ip和内网ip的区别
 
