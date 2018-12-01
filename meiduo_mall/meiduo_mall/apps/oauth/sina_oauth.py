@@ -3,7 +3,7 @@
 import requests
 import json
 
-from future.backports.urllib.parse import urlencode
+# from future.backports.urllib.parse import urlencode
 
 
 class OAuthSina(object):
@@ -15,7 +15,7 @@ class OAuthSina(object):
 
 
     def get_sina_url(self):
-        # QQ登录url参数组建
+        # 微博登录url参数组建
         data_dict = {
             'response_type': 'code',
             'client_id': self.client_id,
@@ -24,7 +24,7 @@ class OAuthSina(object):
         }
 
         # 构建url
-        # from urllib.parse import urlencode
+        from urllib.parse import urlencode
         sina_url = 'https://api.weibo.com/oauth2.0/authorize?' + urlencode(data_dict)
 
         return sina_url
@@ -34,7 +34,7 @@ class OAuthSina(object):
 
         querystring = {
             "client_id": self.client_id,
-            "client_secret": self.client_key,
+            "client_secret": self.client_secret,
             "grant_type": "authorization_code",
             "code": code,
             "redirect_uri": self.redirect_uri
