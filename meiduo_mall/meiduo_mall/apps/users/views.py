@@ -49,7 +49,8 @@ class SmsCodeView(APIView):
         # 异步发送短信
         # t=Thread(target='send_sms_code',kwargs={'mobile':mobile,'sms_code':sms_code})
         # t.start()
-        send_sms_code.delay(mobile, sms_code)
+
+        # send_sms_code.delay(mobile, sms_code)
 
         # 5、结果返回
         return Response({'message': 'ok'})
