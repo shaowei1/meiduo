@@ -1,9 +1,9 @@
-# from urllib.parse import urlencode
+
 
 import requests
 import json
 
-# from future.backports.urllib.parse import urlencode
+from django.conf import settings
 
 
 class OAuthSina(object):
@@ -24,9 +24,7 @@ class OAuthSina(object):
         }
 
         # 构建url
-        from urllib.parse import urlencode
-        sina_url = 'https://api.weibo.com/oauth2.0/authorize?' + urlencode(data_dict)
-
+        sina_url = 'https://api.weibo.com/oauth2/authorize?client_id=' + settings.SINA_CLIENT_ID + '&redirect_uri=' + settings.SINA_REDIRECT_URI
         return sina_url
 
     def get_access_token(self, code):  # 获取用户token和uid
