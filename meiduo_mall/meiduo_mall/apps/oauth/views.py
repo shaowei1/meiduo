@@ -12,7 +12,9 @@ from rest_framework.generics import CreateAPIView
 from rest_framework_jwt.settings import api_settings
 
 from meiduo_mall.utils.captcha.captcha import captcha
-from oauth.models import OAuthQQUser, OAuthSinaUser
+from oauth.models import OAuthQQUser
+from weibo.models import OAuthSinaUser
+
 from oauth.serializers import OauthSerializers, SinaSerializers
 from oauth.sina_oauth import OAuthSina
 from users.utils import merge_cart_cookie_to_redis
