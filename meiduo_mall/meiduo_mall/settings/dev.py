@@ -284,6 +284,14 @@ QQ_CLIENT_ID = '101474184'  # appid
 QQ_CLIENT_SECRET = 'c6ce949e04e12ecc909ae6a8b09b637c'  # appkey
 QQ_REDIRECT_URI = 'http://www.meiduo.site:8080/oauth_callback.html'  # 美多跳转连接
 
+
+# 新浪微博登录参数
+SINA_CLIENT_ID = '3832847300'  # appid
+SINA_CLIENT_SECRET = 'b9d9fa50e93b5bc279983f872c997f59'  # appkey
+SINA_REDIRECT_URI = 'http://www.meiduo.site:8080/sina_callback.html'  # 美多跳转连接
+
+
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.163.com'
 EMAIL_PORT = 25

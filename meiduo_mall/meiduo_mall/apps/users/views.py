@@ -44,12 +44,11 @@ class SmsCodeView(APIView):
         pl.setex('sms_code_flag_%s' % mobile, 60, 'a')
         pl.execute()
         # 4、发送短信
-        # ccp = CCP()
-        # ccp.send_template_sms(mobile, [sms_code, '5'], 1)
+        ccp = CCP()
+        ccp.send_template_sms(mobile, [sms_code, '5'], 1)
         # 异步发送短信
         # t=Thread(target='send_sms_code',kwargs={'mobile':mobile,'sms_code':sms_code})
         # t.start()
-
         # send_sms_code.delay(mobile, sms_code)
 
         # 5、结果返回
