@@ -141,30 +141,6 @@ class verifyId(APIView):
     pass
 
 
-# class RepairPass(APIView):
-#
-#     def post(self, request, user_id):
-#         password = request.data["password"]
-#         password2 = request.data["password2"]
-#         access_token = request.data["access_token"]
-#
-#         if password != password2:
-#             return Response({'message': 'password is differ'}, status=400)
-#
-#         tjs = TJS(settings.SECRET_KEY, 300)
-#         verifyId = tjs.loads(access_token)["user_id"]
-#
-#         if str(verifyId) != str(user_id):
-#             return Response({'message': 'DBERROR'}, status=400)
-#         try:
-#             user = User.objects.get(id=user_id)
-#             user.password = password
-#             user.save()
-#         except:
-#             return Response({'message': 'DBERROR'}, status=400)
-#
-#         return Response({'message': 'OK'}, status=200)
-
 class RepairPass(APIView):
 
     def post(self, request, user_id):
@@ -182,7 +158,7 @@ class RepairPass(APIView):
             return Response({'message': 'DBERROR'}, status=400)
         try:
             user = User.objects.get(id=user_id)
-            user.password = password
+            user.set_password(password)
             user.save()
         except:
             return Response({'message': 'DBERROR'}, status=400)
