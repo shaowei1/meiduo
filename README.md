@@ -41,3 +41,11 @@ weibo login
 
 ali外网ip和内网ip的区别
 
+
+# last_login 没有保存
+
+# 到最后要验证使用手机号时候能重置
+
+# 实现内网,外网的转发,nginx 访问elasticsearch
+
+

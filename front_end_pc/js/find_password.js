@@ -5,6 +5,7 @@ var vm = new Vue({
 
         image_code_id: '',
         image_code_url: '',
+        login_url: '/login.html',
 
         username: '',
         image_code: '',
@@ -223,6 +224,7 @@ var vm = new Vue({
                         this.step_class['step-3'] = false;
                         this.is_show_form_3 = false;
                         this.is_show_form_4 = true;
+                        location.href = this.login_url;
                     })
                     .catch(error => {
                         alert(error.response.data.message);

@@ -62,9 +62,9 @@ class OauthView(CreateAPIView):
         except:
 
             # 7、 不存在则进入绑定页面进行保存绑定
-            tjs=TJS(settings.SECRET_KEY,300)
-            open_id=tjs.dumps({'openid':openid}).decode()
-            return Response({'access_token':open_id})
+            tjs = TJS(settings.SECRET_KEY, 300)
+            open_id = tjs.dumps({'openid': openid}).decode()
+            return Response({'access_token': open_id})
         else:
             # 8、存在则用户登录成功跳转到首页
             # 9、生成jwt token值
@@ -75,14 +75,14 @@ class OauthView(CreateAPIView):
             payload = jwt_payload_handler(user)
             token = jwt_encode_handler(payload)
 
-            response=Response(
+            response = Response(
                 {
                     'token': token,
                     'username': user.username,
                     'user_id': user.id
                 }
             )
-            response=merge_cart_cookie_to_redis(request,response,user)
+            response = merge_cart_cookie_to_redis(request, response, user)
 
             return response
 
@@ -93,5 +93,3 @@ class OauthView(CreateAPIView):
     #     # 2、验证数据
     #     # 3、保存数据
     #     # 4、返回结果
-
-
