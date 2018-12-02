@@ -62,7 +62,7 @@ var vm = new Vue({
             if (r != null) {
                 return decodeURI(r[2]);
             }
-            return null;
+            return '/';
         },
         // 生成uuid
         generate_uuid: function(){
@@ -185,13 +185,13 @@ var vm = new Vue({
                     responseType: 'json',
                 })
                     .then(response => {
-                        // 记录用户登录状态
-                        sessionStorage.clear();
-                        localStorage.clear();
-                        localStorage.token = response.data.token;
-                        localStorage.user_id = response.data.user_id;
-                        localStorage.username = response.data.username;
-                        location.href = '/';
+                        // 记录用户登录状
+                    sessionStorage.clear();
+                    localStorage.clear();
+                    localStorage.user_id = response.data.user_id;
+                    localStorage.username = response.data.username;
+                    localStorage.token = response.data.token;
+                    location.href = '/'
                     })
                     .catch(error => {
                         if (error.response.status == 400) {

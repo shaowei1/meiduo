@@ -127,7 +127,7 @@ class SinaView(CreateAPIView):
             # 初始化OAuthSina对象
         sina = OAuthSina(client_secret=settings.SINA_CLIENT_SECRET, client_id=settings.SINA_CLIENT_ID,
                      redirect_uri=settings.SINA_REDIRECT_URI, state='/')
-        access_token = sina.get_access_token(code)
+        access_token = sina.get_access_token(code)['access_token']
         # 5、判断access_token是否绑定
         try:
             # 6、查询access_token所对应的数据是否存在
@@ -155,7 +155,7 @@ class SinaView(CreateAPIView):
                     'user_id': user.id
                 }
             )
-            response = merge_cart_cookie_to_redis(request, response, user)
+            # response = merge_cart_cookie_to_redis(request, response, user)
 
             return response
 
