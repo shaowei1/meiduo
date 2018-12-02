@@ -95,7 +95,7 @@ class OrderSaveSerializers(serializers.ModelSerializer):
                         # sku.save()
                         new_stock = old_stock - sku_count
                         new_sales = sku.sales + sku_count
-                        ret=SKU.objects.filter(id=sku_id,stock=old_stock).update(stock=new_stock,sales=new_sales)
+                        ret = SKU.objects.filter(id=sku_id, stock=old_stock).update(stock=new_stock, sales=new_sales)
                         if ret == 0:
                             continue
 

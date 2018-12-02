@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.response import Response
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.views import APIView
 from django_redis import get_redis_connection
 from decimal import Decimal
@@ -40,8 +40,10 @@ class OrdersShowView(APIView):
         return Response(ser.data)
 
 
-class OrderSaveView(CreateAPIView):
+class OrderSaveView(CreateAPIView, ListAPIView):
     """
         保存订单信息
     """
     serializer_class = OrderSaveSerializers
+
+

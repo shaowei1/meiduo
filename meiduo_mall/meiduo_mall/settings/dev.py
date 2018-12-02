@@ -57,7 +57,8 @@ INSTALLED_APPS = [
     'carts.apps.CartsConfig',
     'orders.apps.OrdersConfig',
     'payments.apps.PaymentsConfig',
-
+    'weibo.apps.WeiboConfig',
+    'findPass.apps.FindpassConfig',
 ]
 
 MIDDLEWARE = [

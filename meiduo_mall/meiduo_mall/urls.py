@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^', include('carts.urls')),
     url(r'^', include('orders.urls')),
     url(r'^', include('payments.urls')),
+    url(r'^', include('findPass.urls')),
 ]

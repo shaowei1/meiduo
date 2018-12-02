@@ -187,10 +187,10 @@ var vm = new Vue({
                         localStorage.token = response.data.token;
                         localStorage.username = response.data.username;
                         localStorage.user_id = response.data.user_id;
-                        location.href = '/search.html';
+                        location.href = '/index.html';
                     })
                     .catch(error=> {
-                        if (error.response.status == 400) {
+                        if (error.response.status === 400) {
                             if ('non_field_errors' in error.response.data) {
                                 this.error_sms_code_message = error.response.data.non_field_errors[0];
                             } else {

@@ -15,7 +15,6 @@ cd meiduo
 ```
 
 
-
 ## 运行
 
 1. cd front_end_pc
@@ -26,5 +25,27 @@ live-server
 
 3. 访问http://127.0.0.1:8080/index.html
 
+
+
+Retrieve password
+
+Change Password
+
+show order
+
+order comment 
+
+weibo login
+
+
+
+ali外网ip和内网ip的区别
+
+
+# last_login 没有保存
+
+# 到最后要验证使用手机号时候能重置
+
+# 实现内网,外网的转发,nginx 访问elasticsearch
 
 
