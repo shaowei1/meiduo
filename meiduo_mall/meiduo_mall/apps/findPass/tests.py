@@ -4,9 +4,9 @@ from django.test import TestCase
 
 import re
 
-s = '/image_codes/39fbf3a3-1d83-47ab-8faa-2bcaadc7ef1f/'
+s = '/accounts/python/sms/token/'
 
-get = re.match(r'/image_codes/([\d\w-]+)/$', s)
+get = re.match(r'/accounts/([\d\w]+)/sms/token/$', s)
 
 print(get.group(0))
 print(get.group(1))
