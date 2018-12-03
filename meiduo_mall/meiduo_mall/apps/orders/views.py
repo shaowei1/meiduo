@@ -9,7 +9,8 @@ from decimal import Decimal
 from goods.models import SKU
 from goods.utils import PageNum
 from orders.models import OrderGoods, OrderInfo
-from orders.serializers import OrderShowSerializers, OrderSaveSerializers, OrderSerializer, OrderGoodSerializer
+from orders.serializers import OrderShowSerializers, OrderSaveSerializers, OrderSerializer, OrderGoodSerializer, \
+    CommentListSerializer
 from users.models import User
 
 
@@ -60,7 +61,6 @@ class AllOrdersView(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        # user_id = User.objects.get(username=user)
         return OrderInfo.objects.filter(user_id=user.id)
 
 
@@ -72,4 +72,59 @@ class GoodComment(ListAPIView):
         return OrderGoods.objects.filter(order_id=order_id).order_by('create_time')
 
 
+class CommentView(ListAPIView):
+    """
+        保存评论内容
+    """
 
+    def post(self, request, order_id):
+
+        # 1、获取前端数据
+        data = request.data
+        sku_id = data['sku']
+        try:
+            ordergoods = OrderGoods.objects.get(order_id=order_id, sku_id=sku_id)
+        except Exception as e:
+            print(e)
+            raise ValueError('获取订单商品出错')
+        try:
+            orderinfo = OrderInfo.objects.get(order_id=order_id)
+        except Exception as e:
+            print(e)
+            raise ValueError('获取订单出错')
+        try:
+            ordergoods.comment = data['comment']
+            ordergoods.score = data['score']
+            ordergoods.is_anonymous = data['is_anonymous']
+            # 更改该订单商品的评论状态
+            ordergoods.is_commented = True
+            ordergoods.save()
+        except Exception as e:
+            print(e)
+            raise ValueError('保存订单商品出错')
+        try:
+            # 更改订单的状态
+            orderinfo.status = 5
+            orderinfo.save()
+        except Exception as e:
+            print(e)
+            raise ValueError('保存订单状态出错')
+        return Response({'message': 'ok'})
+
+
+class CommentListView(ListAPIView):
+    '''展示评论'''
+    serializer_class = CommentListSerializer
+    pagination_class = PageNum
+
+    def get_queryset(self):
+        sku_id = self.kwargs['sku_id']
+        ordergoods = OrderGoods.objects.filter(sku_id=sku_id, is_commented=True)
+        for order in ordergoods:
+            orderinfo = OrderInfo.objects.get(order_id=order.order_id)
+            user = User.objects.get(id=orderinfo.user_id)
+            if order.is_anonymous == False:
+                order.username = user.username
+            else:
+                order.username = "******"
+        return ordergoods

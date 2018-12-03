@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^order/$', views.AllOrdersView.as_view()),
     url(r'^orders/(?P<order_id>\d+)/uncommentgoods/$', views.GoodComment.as_view()),
     # url(r'^orders/(?P<order_id>\d+)/comments/$', views.Comment.as_view()),
-    url(r'^orders/(?P<order_id>\d+)/comments/$', views.comment),
     # url(r'^/orders/(?P<order_id>[\d\w-]+)/payment/$', views.GoPay.as_view()),
+    url(r'^orders/(?P<order_id>\d+)/comments/$', views.CommentView.as_view()),
+    url(r'^skus/(?P<sku_id>\d+)/comments/$', views.CommentListView.as_view()),
 ]

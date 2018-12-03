@@ -148,3 +148,13 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderInfo
         fields = '__all__'
+
+
+# 展示商品评论
+class CommentListSerializer(serializers.ModelSerializer):
+    # sku = SKUListSerialziers(read_only=True,many=True)
+    username = serializers.CharField()
+
+    class Meta:
+        model = OrderGoods
+        fields = "__all__"

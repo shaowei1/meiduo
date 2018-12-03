@@ -329,7 +329,7 @@ CKEDITOR_UPLOAD_PATH = ''  # 上传图片保存路径，使用了FastDFS，所�
 # 定时任务
 CRONJOBS = [
     # 每5分钟执行一次生成主页静态文件
-    ('*/1 * * * *', 'contents.crons.generate_static_index_html',
+    ('*/5 * * * *', 'contents.crons.generate_static_index_html',
      '>> /home/yue/github/meiduo/meiduo_mall/logs/crontab.log')
     # (时间间隔，执行的任务，log日志路径)
 ]
