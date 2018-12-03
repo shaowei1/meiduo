@@ -2,6 +2,7 @@ from decimal import Decimal
 
 from django_redis import get_redis_connection
 from rest_framework import serializers
+from rest_framework.generics import ListAPIView
 
 from goods.models import SKU
 from orders.models import OrderInfo, OrderGoods
@@ -127,3 +128,24 @@ class OrderSaveSerializers(serializers.ModelSerializer):
                 conn.srem('cart_selected_%s' % user.id, *sku_ids)
                 # 12、结果返回
                 return order
+
+
+class OrderSerializer(ListAPIView):
+    # order_info = serializers.StringRelatedField(many=True)
+
+    class Meta:
+        model = OrderInfo
+        fields = '__all__'
+
+# for (var i=0; i < this.orders.length; i++){
+# for (var j=0; j < this.orders[i].skus.length; j++){
+# var order = this.orders[i];
+# var name = order.skus[j].sku.name;
+# if (name.length >= 25) {
+# this.orders[i].skus[j].sku.name = name.substring(0, 25) + '...';
+# }
+# this.orders[i].skus[j].amount = (parseFloat(order.skus[j].price) * order.skus[j].count).toFixed(2);
+# this.orders[i].status_name = this.ORDER_STATUS_ENUM[order.status];
+# this.orders[i].pay_method_name = this.PAY_METHOD_ENUM[order.pay_method];
+# }
+# }

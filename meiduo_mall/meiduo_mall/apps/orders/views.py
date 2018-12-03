@@ -7,7 +7,9 @@ from decimal import Decimal
 
 # Create your views here.
 from goods.models import SKU
-from orders.serializers import OrderShowSerializers, OrderSaveSerializers
+from goods.utils import PageNum
+from orders.models import OrderGoods, OrderInfo
+from orders.serializers import OrderShowSerializers, OrderSaveSerializers, OrderSerializer
 
 
 class OrdersShowView(APIView):
@@ -47,3 +49,12 @@ class OrderSaveView(CreateAPIView, ListAPIView):
     serializer_class = OrderSaveSerializers
 
 
+class myorder(ListAPIView):
+
+    serializer_class = OrderSerializer
+    queryset = OrderInfo.objects.all()
+    pagination_class = PageNum
+
+
+class GoPay(APIView):
+    pass

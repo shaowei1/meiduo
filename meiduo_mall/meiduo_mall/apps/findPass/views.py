@@ -1,6 +1,7 @@
 from random import randint
 
 from django.conf import settings
+from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 
@@ -30,7 +31,6 @@ def ImageVerify(request, codeid):
         conn.setex('ImageCode_' + codeid, constants.IMAGE_CODE_REDIS_EXPIRES, text)
     except Exception as e:
         return HttpResponse({'message': 'DBERROR'}, content_type='application/json', status=400)
-    print(text)
     return HttpResponse(image, content_type="image/png")
 
 
@@ -95,7 +95,6 @@ class SmsCode(APIView):
 
         # 2、生成短信验证
         sms_code = '%06d' % randint(0, 999999)
-        print(sms_code)
         # 3、保存短信到redis缓存
         pl = conn.pipeline()  # 生成管道对象
         pl.setex('sms_code_%s' % mobile, 300, sms_code)
@@ -107,10 +106,9 @@ class SmsCode(APIView):
 
         # 5、结果返回
         return Response({'message': 'ok'})
-        pass
 
 
-class verifyId(APIView):
+class VerifyId(APIView):
     def get(self, request, username):
         sms_code = request.query_params.get('sms_code')
 
@@ -164,3 +162,22 @@ class RepairPass(APIView):
             return Response({'message': 'DBERROR'}, status=400)
 
         return Response({'message': 'OK'}, status=200)
+
+    def put(self, request, user_id):
+        password = request.data["password"]
+        password2 = request.data["password2"]
+        old_password = request.data["old_password"]
+
+        if password != password2:
+            return Response({'message': 'password is differ'}, status=400)
+        try:
+            user = User.objects.get(id=user_id)
+            if user.check_password(old_password):
+                user.set_password(password)
+                user.save()
+                return Response({'message': 'OK'}, status=200)
+            else:
+                return Response({'message': 'password is error'}, status=400)
+        except:
+            return Response({'message': 'DBERROR'}, status=400)
+
