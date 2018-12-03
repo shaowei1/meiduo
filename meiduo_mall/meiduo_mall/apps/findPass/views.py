@@ -24,6 +24,7 @@ def ImageVerify(request, codeid):
     """
 
     name, text, image = captcha.generate_captcha()
+    print(text)
     try:
         # 保存当前生成的图片验证码内容
         conn = get_redis_connection('img_code')
@@ -103,6 +104,7 @@ class SmsCode(APIView):
 
         # 4. 发送短信
         # send_sms_code.delay(mobile, sms_code)
+        print(sms_code)
 
         # 5、结果返回
         return Response({'message': 'ok'})

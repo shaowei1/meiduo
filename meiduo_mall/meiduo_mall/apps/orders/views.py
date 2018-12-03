@@ -10,6 +10,7 @@ from goods.models import SKU
 from goods.utils import PageNum
 from orders.models import OrderGoods, OrderInfo
 from orders.serializers import OrderShowSerializers, OrderSaveSerializers, OrderSerializer, OrderGoodSerializer
+from users.models import User
 
 
 class OrdersShowView(APIView):
@@ -54,12 +55,13 @@ class GoPay(APIView):
 
 
 class AllOrdersView(ListAPIView):
-    queryset = OrderInfo.objects.all()
     pagination_class = PageNum
     serializer_class = OrderSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+    def get_queryset(self):
+        user = self.request.user
+        # user_id = User.objects.get(username=user)
+        return OrderInfo.objects.filter(user_id=user.id)
 
 
 class GoodComment(ListAPIView):
@@ -67,13 +69,7 @@ class GoodComment(ListAPIView):
 
     def get_queryset(self):
         order_id = self.kwargs['order_id']
-        return OrderGoods.objects.filter(order_id=order_id)
+        return OrderGoods.objects.filter(order_id=order_id).order_by('create_time')
 
 
-def comment(request, order_id):
-    # order_id =
-    # sku
-    # comment
-    # score
-    # is_anonymous
-    return Response(status=200)
+

@@ -147,4 +147,4 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrderInfo
-        fields = ('create_time', 'order_id', 'total_amount', 'pay_method', 'status', 'skus')
+        fields = '__all__'
