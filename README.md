@@ -48,6 +48,9 @@ ali外网ip和内网ip的区别
 
 # 实现内网,外网的转发,nginx 访问elasticsearch
 
+# 主从数据表结构能同步,数据不能同步
+
+# 新加一个标签页,不会实现同时登录
 
 WARNING base 152 Not Found: /categories/115/hotskus/
 WARNING basehttp 124 "GET /categories/115/hotskus/ HTTP/1.1" 404 8154

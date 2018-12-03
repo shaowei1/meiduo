@@ -84,7 +84,7 @@ var vm = new Vue({
         },
         // 获取订单数据
         get_orders: function () {
-            axios.get(this.host+'/orders/', {
+            axios.get(this.host+'/order/', {
                     headers: {
                         'Authorization': 'JWT ' + this.token
                     },

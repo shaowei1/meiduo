@@ -6,7 +6,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as TJS
 from rest_framework_jwt.settings import api_settings
 
 from oauth.models import OAuthQQUser
-from weibo.models import OAuthSinaUser
+from oauth.models import OAuthSinaUser
 
 from users.models import User
 

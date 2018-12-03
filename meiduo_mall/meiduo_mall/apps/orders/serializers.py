@@ -2,7 +2,6 @@ from decimal import Decimal
 
 from django_redis import get_redis_connection
 from rest_framework import serializers
-from rest_framework.generics import ListAPIView
 
 from goods.models import SKU
 from orders.models import OrderInfo, OrderGoods
@@ -89,7 +88,6 @@ class OrderSaveSerializers(serializers.ModelSerializer):
                         if sku_count > old_stock:
                             raise serializers.ValidationError('库存不足')
 
-                        # print(11111)
                         # 7、更新sku商品对象的库存和销量
                         # sku.stock = old_stock - sku_count
                         # sku.sales = old_sales + sku_count
@@ -130,22 +128,23 @@ class OrderSaveSerializers(serializers.ModelSerializer):
                 return order
 
 
-class OrderSerializer(ListAPIView):
-    # order_info = serializers.StringRelatedField(many=True)
+class SkuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SKU
+        fields = '__all__'
+
+
+class OrderGoodSerializer(serializers.ModelSerializer):
+    sku = SkuSerializer()
+
+    class Meta:
+        model = OrderGoods
+        fields = ('count', 'price', 'sku_id', 'sku')
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    skus = OrderGoodSerializer(many=True)
 
     class Meta:
         model = OrderInfo
-        fields = '__all__'
-
-# for (var i=0; i < this.orders.length; i++){
-# for (var j=0; j < this.orders[i].skus.length; j++){
-# var order = this.orders[i];
-# var name = order.skus[j].sku.name;
-# if (name.length >= 25) {
-# this.orders[i].skus[j].sku.name = name.substring(0, 25) + '...';
-# }
-# this.orders[i].skus[j].amount = (parseFloat(order.skus[j].price) * order.skus[j].count).toFixed(2);
-# this.orders[i].status_name = this.ORDER_STATUS_ENUM[order.status];
-# this.orders[i].pay_method_name = this.PAY_METHOD_ENUM[order.pay_method];
-# }
-# }
+        fields = ('create_time', 'order_id', 'total_amount', 'pay_method', 'status', 'skus')

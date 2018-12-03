@@ -49,12 +49,17 @@ class OrderSaveView(CreateAPIView, ListAPIView):
     serializer_class = OrderSaveSerializers
 
 
-class myorder(ListAPIView):
+class GoPay(APIView):
+    pass
 
-    serializer_class = OrderSerializer
+
+class AllOrdersView(ListAPIView):
     queryset = OrderInfo.objects.all()
     pagination_class = PageNum
+    serializer_class = OrderSerializer
 
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+        pass
 
-class GoPay(APIView):
     pass
