@@ -139,7 +139,7 @@ class OrderGoodSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrderGoods
-        fields = ('count', 'price', 'sku_id', 'sku')
+        fields = ('count', 'price', 'sku_id', 'sku', 'order_id')
 
 
 class OrderSerializer(serializers.ModelSerializer):

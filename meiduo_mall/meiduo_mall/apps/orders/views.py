@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.response import Response
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.views import APIView
 from django_redis import get_redis_connection
 from decimal import Decimal
@@ -9,7 +9,7 @@ from decimal import Decimal
 from goods.models import SKU
 from goods.utils import PageNum
 from orders.models import OrderGoods, OrderInfo
-from orders.serializers import OrderShowSerializers, OrderSaveSerializers, OrderSerializer
+from orders.serializers import OrderShowSerializers, OrderSaveSerializers, OrderSerializer, OrderGoodSerializer
 
 
 class OrdersShowView(APIView):
@@ -60,6 +60,20 @@ class AllOrdersView(ListAPIView):
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
-        pass
 
-    pass
+
+class GoodComment(ListAPIView):
+    serializer_class = OrderGoodSerializer
+
+    def get_queryset(self):
+        order_id = self.kwargs['order_id']
+        return OrderGoods.objects.filter(order_id=order_id)
+
+
+def comment(request, order_id):
+    # order_id =
+    # sku
+    # comment
+    # score
+    # is_anonymous
+    return Response(status=200)
