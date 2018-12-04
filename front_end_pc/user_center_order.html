@@ -71,10 +71,11 @@
 						<tr>
 							<td width="55%">
 								<ul class="order_goods_list clearfix" v-for="order_sku in order.skus">
+                                    <a class='aaa' :href="order_sku.url">
 									<li class="col01"><img :src="order_sku.sku.default_image_url"></li>
 									<li class="col02">{{ order_sku.sku.name }}<em>{{order_sku.price }}元</em></li>
 									<li class="col03">{{ order_sku.count }}</li>
-									<li class="col04">{{ order_sku.amount }}元</li>
+                                        <li class="col04">{{ order_sku.amount }}元</li></a>
 								</ul>
 							</td>
 							<td width="15%">{{ order.total_amount }}元<br>运费{{order.freight}}元</td>

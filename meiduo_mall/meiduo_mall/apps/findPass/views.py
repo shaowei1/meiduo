@@ -1,5 +1,6 @@
 from random import randint
 
+from celery_tasks.sms_code.tasks import send_sms_code
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse, JsonResponse
@@ -15,6 +16,8 @@ from meiduo_mall.utils.captcha.captcha import captcha
 from meiduo_mall.utils.regular import phone_number
 from users.models import User
 from itsdangerous import TimedJSONWebSignatureSerializer as TJS
+
+from meiduo_mall.libs.yuntongxun.sms import CCP
 
 
 def ImageVerify(request, codeid):
@@ -76,7 +79,7 @@ def NumberToken(request, username):
         }
         return JsonResponse(data, status=200)
     else:
-        return Response({'message': 'verify is error'}, status=400)
+        return JsonResponse({'message': 'verify is error'}, status=400)
 
 
 class SmsCode(APIView):
@@ -103,7 +106,9 @@ class SmsCode(APIView):
         pl.execute()
 
         # 4. 发送短信
-        # send_sms_code.delay(mobile, sms_code)
+        # ccp = CCP()
+        # ccp.send_template_sms(mobile, [sms_code, '5'], 1)
+        send_sms_code.delay(mobile, sms_code)
         print(sms_code)
 
         # 5、结果返回
@@ -182,4 +187,3 @@ class RepairPass(APIView):
                 return Response({'message': 'password is error'}, status=400)
         except:
             return Response({'message': 'DBERROR'}, status=400)
-

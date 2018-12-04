@@ -1,25 +1,25 @@
-# -*- coding:utf-8 -*-
 from time import sleep
 
-from meiduo_mall.libs.yuntongxun.CCPRestSDK import REST
+from .CCPRestSDK import REST
 
 # 说明：主账号，登陆云通讯网站后，可在"控制台-应用"中看到开发者主账号ACCOUNT SID
-_accountSid = '8a216da8635e621f0163868c871a12b6'
+_accountSid = '8a216da8669b2ef70166a1c1406a0522'
 
 # 说明：主账号Token，登陆云通讯网站后，可在控制台-应用中看到开发者主账号AUTH TOKEN
-_accountToken = '809bf0c33e2f4210b1bd64b52e4664de'
+_accountToken = '764f18b0b4384822b4d17290250dc1f1'
 
 # 请使用管理控制台首页的APPID或自己创建应用的APPID
-_appId = '8a216da8635e621f0163868c876612bc'
+_appId = '8a216da8669b2ef70166a1c140d20529'
 
 # 说明：请求地址，生产环境配置成app.cloopen.com
-_serverIP = 'sandboxapp.cloopen.com'
+_serverIP = 'app.cloopen.com'
 
 # 说明：请求端口 ，生产环境为8883
-_serverPort = "8883"
+_serverPort = '8883'
 
 # 说明：REST API版本号保持不变
 _softVersion = '2013-12-26'
+
 
 # 云通讯官方提供的发送短信代码实例
 # # 发送模板短信
@@ -55,14 +55,13 @@ class CCP(object):
             cls._instance.rest.setAppId(_appId)
         return cls._instance
 
-
     def send_template_sms(self, to, datas, temp_id):
         """发送模板短信"""
         # @param to 手机号码
         # @param datas 内容数据 格式为数组 例如：{'12','34'}，如不需替换请填 ''
         # @param temp_id 模板Id
         result = self.rest.sendTemplateSMS(to, datas, temp_id)
-        sleep(6)
+        sleep(3)
         # 如果云通讯发送短信成功，返回的字典数据result中statuCode字段的值为"000000"
         if result.get("statusCode") == "000000":
             # 返回0 表示发送短信成功
