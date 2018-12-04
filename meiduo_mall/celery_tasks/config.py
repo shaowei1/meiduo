@@ -1,1 +1,1 @@
-broker_url = "redis://39.96.20.67/14"
+broker_url = "redis://127.0.0.1/14"

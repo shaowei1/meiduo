@@ -11,11 +11,13 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 import datetime
 import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # print(BASE_DIR)
 
+host = '127.0.0.1'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -26,10 +28,10 @@ SECRET_KEY = '8+$45)&rdyqycx8htz$a@0++zww)exo3^x1&67wrdz7dg)jziz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['api.meiduo.site','127.0.0.1']
-import sys
+#ALLOWED_HOSTS = ['api.meiduo.site', '127.0.0.1', 'www.meiduo.site', 'meiduo.site']
+ALLOWED_HOSTS = ['*']
 
-sys.path.insert(0,os.path.join(BASE_DIR,'apps'))
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 # print(sys.path)
 
 # Application definition
@@ -42,11 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'corsheaders',# 跨域应用
+    'corsheaders',  # 跨域应用
     'ckeditor',  # 富文本编辑器
     'ckeditor_uploader',  # 富文本编辑器上传图片模块
-    'django_crontab', # 定时任务
-    'haystack', # 搜索
+    'django_crontab',  # 定时任务
+    'haystack',  # 搜索
 
     'users.apps.UsersConfig',
     'oauth.apps.OauthConfig',
@@ -56,7 +58,7 @@ INSTALLED_APPS = [
     'carts.apps.CartsConfig',
     'orders.apps.OrdersConfig',
     'payments.apps.PaymentsConfig',
-
+    'findPass.apps.FindpassConfig',
 ]
 
 MIDDLEWARE = [
@@ -75,7 +77,7 @@ ROOT_URLCONF = 'meiduo_mall.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -90,29 +92,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'meiduo_mall.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'meiduo_mall33',
-        'USER': 'meiduo33',
-        'PASSWORD':'meiduo33',
-        'PORT':3306,
-        'HOST':'10.211.55.26'
+        'NAME': 'meiduo_mall',
+        'USER': 'root',
+        'PASSWORD': 'python',
+        'PORT': 3306,
+        'HOST': host,
     },
     'slave': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'meiduo_mall33',
+        'NAME': 'meiduo_mall',
         'USER': 'root',
-        'PASSWORD':'mysql',
-        'PORT':8306,
-        'HOST':'10.211.55.26'
+        'PASSWORD': 'python',
+        'PORT': 3306,
+        'HOST': host,
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -132,7 +132,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -146,7 +145,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
@@ -156,35 +154,42 @@ STATIC_URL = '/static/'
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://10.211.55.26:6379/0",
+        "LOCATION": "redis://" + host + ":6379/0",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
     "session": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://10.211.55.26:6379/1",
+        "LOCATION": "redis://" + host + ":6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
     "sms_code": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://10.211.55.26:6379/2",
+        "LOCATION": "redis://" + host + ":6379/2",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
     "history": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://10.211.55.26:6379/3",
+        "LOCATION": "redis://" + host + ":6379/3",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
     "cart": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://10.211.55.26:6379/4",
+        "LOCATION": "redis://" + host + ":6379/4",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+    "img_code": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://" + host + ":6379/5",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
@@ -247,27 +252,25 @@ REST_FRAMEWORK = {
     ),
 }
 
-AUTH_USER_MODEL = 'users.User' # 指定自定义用户模型类
+AUTH_USER_MODEL = 'users.User'  # 指定自定义用户模型类
 
 # CORS
 CORS_ORIGIN_WHITELIST = (
     '127.0.0.1:8080',
     'localhost:8080',
-    'www.meiduo.site:8080',
-    'api.meiduo.site:8000',
-    'www.meiduo.site'
+    'www.meiduo.site:80',
+    'api.meiduo.site:80',
 )
 CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
-
 
 # JWT配置
 JWT_AUTH = {
     # 返回结果控制
     'JWT_RESPONSE_PAYLOAD_HANDLER':
-    'users.utils.jwt_response_payload_handler',
+        'users.utils.jwt_response_payload_handler',
 
     # 过期时间
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=60*60*24),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=60 * 60 * 24),
 
 }
 
@@ -278,19 +281,22 @@ AUTHENTICATION_BACKENDS = [
 # QQ登录参数
 QQ_CLIENT_ID = '101474184'  # appid
 QQ_CLIENT_SECRET = 'c6ce949e04e12ecc909ae6a8b09b637c'  # appkey
-QQ_REDIRECT_URI = 'http://www.meiduo.site:8080/oauth_callback.html' # 美多跳转连接
+QQ_REDIRECT_URI = 'http://www.meiduo.site:8080/oauth_callback.html'  # 美多跳转连接
 
+# 新浪微博登录参数
+SINA_CLIENT_ID = '3832847300'  # appid
+SINA_CLIENT_SECRET = 'b9d9fa50e93b5bc279983f872c997f59'  # appkey
+SINA_REDIRECT_URI = 'http://www.meiduo.site:8080/sina_callback.html'  # 美多跳转连接
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.163.com'
 EMAIL_PORT = 25
-#发送邮件的邮箱
+# 发送邮件的邮箱
 EMAIL_HOST_USER = 'SXM_CPP@163.com'
-#在邮箱中设置的客户端授权密码
+# 在邮箱中设置的客户端授权密码
 EMAIL_HOST_PASSWORD = 'meiduo123'
-#收件人看到的发件人
+# 收件人看到的发件人
 EMAIL_FROM = '美多商城<SXM_CPP@163.com>'
-
 
 # DRF扩展
 REST_FRAMEWORK_EXTENSIONS = {
@@ -307,7 +313,6 @@ DEFAULT_FILE_STORAGE = 'meiduo_mall.utils.fastdfs.fdfs_storage.FastDFSStorage'
 FDFS_URL = 'http://image.meiduo.site:8888/'
 FDFS_CLIENT_CONF = os.path.join(BASE_DIR, 'utils/fastdfs/client.conf')
 
-
 # 富文本编辑器ckeditor配置
 CKEDITOR_CONFIGS = {
     'default': {
@@ -318,20 +323,19 @@ CKEDITOR_CONFIGS = {
 }
 CKEDITOR_UPLOAD_PATH = ''  # 上传图片保存路径，使用了FastDFS，所以此处设为''
 
-
 # 定时任务
 CRONJOBS = [
     # 每5分钟执行一次生成主页静态文件
-    ('*/1 * * * *', 'contents.crons.generate_static_index_html', '>> /Users/august/Desktop/python33/meiduo33/meiduo_mall/logs/crontab.log')
+    ('*/5 * * * *', 'contents.crons.generate_static_index_html',
+     '>> /home/yue/github/meiduo/meiduo_mall/logs/crontab.log')
     # (时间间隔，执行的任务，log日志路径)
 ]
-
 
 # Haystack
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': 'http://10.211.55.26:9200/',  # 此处为elasticsearch运行的服务器ip地址，端口号固定为9200
+        'URL': 'http://172.17.0.201:9200/',  # 此处为elasticsearch运行的服务器ip地址，端口号固定为9200
         'INDEX_NAME': 'meiduo',  # 指定elasticsearch建立的索引库的名称
     },
 }
@@ -347,5 +351,5 @@ ALIPAY_DEBUG = True
 # 配置读写分离
 DATABASE_ROUTERS = ['meiduo_mall.utils.db_router.MasterSlaveDBRouter']
 
-
 STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'front_end_pc/static')
+
